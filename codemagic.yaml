@@ -7,8 +7,6 @@ workflows:
     environment:
       node: 22
       java: 17
-      vars:
-        VITE_API_URL: ""
 
     scripts:
       - name: Install dependencies

@@ -1,0 +1,37 @@
+workflows:
+  android-debug-apk:
+    name: SE7EN FIT Test APK
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+
+    environment:
+      node: 22
+      java: 17
+      vars:
+        VITE_API_URL: ""
+
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm ci || npm install
+
+      - name: Build Vite web app
+        script: |
+          npm run build
+
+      - name: Sync Capacitor Android
+        script: |
+          npx cap sync android
+
+      - name: Set Android SDK path
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
+
+      - name: Build debug APK
+        script: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+    artifacts:
+      - android/app/build/outputs/apk/**/*.apk

@@ -6,9 +6,13 @@ workflows:
 
     environment:
       node: 22
-      java: 17
+      java: 21
 
     scripts:
+      - name: Check Java version
+        script: |
+          java -version
+
       - name: Install dependencies
         script: |
           npm ci || npm install
